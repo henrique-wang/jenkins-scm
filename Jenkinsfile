@@ -15,7 +15,6 @@ pipeline {
             steps {
                 wrap([$class: 'BuildUser']) {
                     // https://plugins.jenkins.io/build-user-vars-plugin/ variables available inside this block
-                    sh 'echo ${BUILD_USER}'
                     script {
                         BUILD_TRIGGER_BY = env.BUILD_USER_EMAIL
                     }
@@ -63,12 +62,12 @@ pipeline {
         }
         success {
             script {
-                email.sendSuccessEmail()
+                email.sendSuccessEmail("${BUILD_TRIGGER_BY}")
             }
         }
         failure {
             script {
-                email.sendFailureEmail("${currentBuild.previousFailedBuild}")
+                email.sendFailureEmail("${currentBuild.previousFailedBuild}", "${BUILD_TRIGGER_BY}")
             }
         }
     }
