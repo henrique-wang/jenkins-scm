@@ -10,9 +10,15 @@ pipeline {
         // get git commit from Jenkins
         GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
         DOCKER_NAME = "${JOB_BASE_NAME}/${env.BRANCH_NAME}"
-        BUILD_TRIGGER_BY = currentBuild.getBuildCauses()[0].shortDescription + " / " + currentBuild.getBuildCauses()[0].userId
     }
     stages {
+        stage('Initial') {
+            steps {
+                script {
+                    BUILD_TRIGGER_BY = currentBuild.getBuildCauses()[0].shortDescription + " / " + currentBuild.getBuildCauses()[0].userId
+                }
+            }
+        }
         stage('Build') {
             steps {
                 echo "Building project from branch ${env.BRANCH_NAME} - Commit ${GIT_COMMIT}"
