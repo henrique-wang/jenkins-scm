@@ -13,8 +13,12 @@ pipeline {
     stages {
         stage('Initial') {
             steps {
-                script {
-                    BUILD_TRIGGER_BY = env.BUILD_USER_EMAIL
+                wrap([$class: 'BuildUser']) {
+                    // https://plugins.jenkins.io/build-user-vars-plugin/ variables available inside this block
+                    sh 'echo ${BUILD_USER}'
+                    script {
+                        BUILD_TRIGGER_BY = env.BUILD_USER_EMAIL
+                    }
                 }
             }
         }
