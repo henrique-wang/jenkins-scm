@@ -1,11 +1,7 @@
 @Library('shared-library@develop') _
-
+def BUILD_TRIGGER_BY
 pipeline {
-    agent {
-        docker {
-            image 'node:14-alpine'
-        }
-    }
+    agent any
     environment {
         // get git commit from Jenkins
         GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -20,6 +16,11 @@ pipeline {
             }
         }
         stage('Build') {
+            agent {
+                docker {
+                    image 'node:14-alpine'
+                }
+            }
             steps {
                 echo "Building project from branch ${env.BRANCH_NAME} - Commit ${GIT_COMMIT}"
                 sh 'npm install'
