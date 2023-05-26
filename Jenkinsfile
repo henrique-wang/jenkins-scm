@@ -23,6 +23,8 @@ pipeline {
                 echo "CHOICE: ${params.CHOICE}"
 
                 echo "Password: ${params.PASSWORD}"
+
+                echo 'Toggle Password: ${params.PASSWORD}'
             }
         }
     }
