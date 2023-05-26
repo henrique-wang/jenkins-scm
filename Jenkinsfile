@@ -1,4 +1,4 @@
-@Library('shared-library@develop') _
+@Library('shared-library') _
 def BUILD_TRIGGER_BY
 pipeline {
     agent any
