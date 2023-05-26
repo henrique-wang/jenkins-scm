@@ -14,7 +14,7 @@ pipeline {
         stage('Initial') {
             steps {
                 script {
-                    BUILD_TRIGGER_BY = currentBuild.CHANGE_AUTHOR_EMAIL
+                    BUILD_TRIGGER_BY = env.BUILD_USER_EMAIL
                 }
             }
         }
