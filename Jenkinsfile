@@ -2,6 +2,9 @@
 def BUILD_TRIGGER_BY
 pipeline {
     agent any
+    tools {
+        nodejs "NodeJS-14.18"
+    }
     environment {
         // get git commit from Jenkins
         GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -11,16 +14,11 @@ pipeline {
         stage('Initial') {
             steps {
                 script {
-                    BUILD_TRIGGER_BY = currentBuild.getBuildCauses()[0].shortDescription + " / " + currentBuild.getBuildCauses()[0].userId
+                    BUILD_TRIGGER_BY = currentBuild.CHANGE_AUTHOR_EMAIL
                 }
             }
         }
         stage('Build') {
-            agent {
-                docker {
-                    image 'node:14-alpine'
-                }
-            }
             steps {
                 echo "Building project from branch ${env.BRANCH_NAME} - Commit ${GIT_COMMIT}"
                 sh 'npm install'
